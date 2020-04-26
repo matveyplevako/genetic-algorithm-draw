@@ -69,9 +69,39 @@ Fitness values:
 <p style="word-spacing: 40px;">3993054 740396</p>
 
 ## Explain the Crossover function.
+I used simple crossover as it is 
+
 ![](https://i.imgur.com/JAOTRpL.png)
 
+1. First half of chromosome is filled with circles 
+2. Second half of chromosome is filled with triangles
+3. We merge 2 chromosomes by merging different halfs and choosing with the best score
 
+
+### Example with crossover:
+##### Image where crossover shows better results
+
+#### Without crossover
+![](https://i.imgur.com/NndJDvu.gif)
+#### With crossover
+![](https://i.imgur.com/DY5IiVO.gif)
+
+#### Compare 2 images
+<img src="https://i.imgur.com/TFkTZzb.png" width=350></img><img src="https://i.imgur.com/XsGylhs.png" width=350></img>
+
+On crossover image mix of circles and triangles made possible to express more detailed forms
+
+I did not use crossover for final results, because, in my opinion, better results were achived using only ellipses
+
+
+```python
+def crossover(new_circles, new_triangles):
+    new = []
+    best_triangle = get_the_best(new_triangles)
+    best_circle = get_the_best(new_circles)
+    best_circle.put_triangle(best_triangle.last_triangle)
+    return best_circle
+```
 
 
 
@@ -79,6 +109,7 @@ Fitness values:
 
 ## Explain Mutation criteria.
 Every parent produces 55 new chromosomes
+
 ### Mutation is done for every parent as following:
 1. Random points are chosen
 2. Color is chosen from original image
@@ -92,6 +123,42 @@ Using triangles
 <img src="https://i.imgur.com/gPfVi0i.gif" width=300></img>
 
 For me, ellipses produced better results, so I used them to produce images
+
+mutation is done by put_figure of Gene class.
+
+Fitness function is updated only for changed rectangle to increases performance.
+```python
+# figure 1 - ellipse, 2 - triangle
+def put_figure(self, figure):
+    canvas = ImageDraw.Draw(self.img, "RGB")
+    if figure == 1:
+        place = get_random_item(2)
+        min_i, min_j = place[0]
+        max_i, max_j = place[1]
+        y, x, r = min_j, min_i, max([max_j - min_j, max_i - min_i])
+        previous_score = self.get_diff_at_rectangle(y, x, r)
+        i, j = get_pixel_coord_from_center(place)
+        color = tuple(self.target[j, i])
+        canvas.ellipse(place, fill=color)
+    else:
+        place = get_random_item(3)
+        min_i, min_j = min([xy[0] for xy in place]), min([xy[1] for xy in place])
+        max_i, max_j = max([xy[0] for xy in place]), max([xy[1] for xy in place])
+        y, x, r = min_j, min_i, max([max_j - min_j, max_i - min_i])
+        previous_score = self.get_diff_at_rectangle(y, x, r)
+        i, j = get_pixel_coord_from_center(place)
+        color = tuple(self.target[j, i])
+        canvas.polygon(place, fill=color)
+    new_score = self.get_diff_at_rectangle(y, x, r)
+    self.fitness_value -= previous_score - new_score
+    return self
+```
+Mutation is done is done for every parent
+```python
+def group_mutation(best_gene, num, figure=2):
+    new = [best_gene.copy().put_figure(figure) for i in range(num)]
+    return new
+```
 
 
 ## What is art for you/How would you define art/what is your perception of art?
