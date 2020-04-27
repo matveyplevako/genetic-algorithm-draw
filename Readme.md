@@ -1,3 +1,4 @@
+Matvey Plevako B18-02
 # Assignment 2 reprot
 
 ## Table of contents
@@ -42,7 +43,6 @@
 ![](https://i.imgur.com/9EPtzlm.png)
 ![](https://i.imgur.com/a01kZ4t.png)
 
-## Results
 ## What is the representation in your algorithm?
 Vector with Image objects* <br>
 *objects are stored as images to reduce time taken by mutation and selection phases.
