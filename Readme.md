@@ -5,7 +5,7 @@
     1. [Generated images](#1)
 2. **What is the representation in your algorithm?**
     1. [Chromosomes](#2)
-3. **What is the representation in your algorithm?**
+3. **Which selection mechanism is being used?**
     1. [fitness based selection mechanism](#3)
     2. [Example](#4)
 4. **Which image manipulation techniques have you applied?**
@@ -17,7 +17,7 @@
     2. [Example](#9)
 6. **Explain the Crossover function.**
     1. [Explanation](#10)
-    2. [Example with crossover](#11)
+    2. [Example to compare crossover results](#11)
 7. **Explain Mutation criteria.**
     1. [Explanation](#12)
     2. [Example](#13) 
